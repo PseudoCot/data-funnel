@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
-  "productName": "my-app",
+  "name": "data-funnel",
+  "productName": "data-funnel",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Desktop application for automating data collection from counters",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
