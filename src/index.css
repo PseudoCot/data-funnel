@@ -1,7 +1,309 @@
+:root {
+  --bg-color: #DBDFE3;
+  --bg-light-color: #FAFAFA;
+  --main-color: #0683FF;
+  --light-main-color: #4aa4ff;
+  --main-text-color: #000;
+}
+
+html {
+  box-sizing: border-box;
+}
+
 body {
+  background-color: var(--bg-color);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* /// reset /// */
+.list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.btn-reset {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.title-reset,
+.paragraph-reset {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+
+/* /// main /// */
+.container {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+.tabs {
+  padding: 14px;
+  min-width: 180px;
+  max-width: 180px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-right: 20px;
+  background-color: var(--bg-light-color);
+  border-radius: 5px;
+}
+
+.tabs__btn {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.tabs__btn:hover .tabs__btn-text {
+  margin-top: 2px;
+  border-bottom: 2px solid var(--light-main-color);
+}
+
+.tabs__btn-img {
+  width: 25px;
+  height: 25px;
+}
+
+.tabs__btn-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.content {
+  padding: 14px;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background-color: var(--bg-light-color);
+  border-radius: 5px;
+}
+
+.head {
+  padding: 0 6px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.head-img {
+  width: 30px;
+  height: 30px;
+}
+
+.head-title {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+
+/* /// common /// */
+.wrapper-underline {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: var(--main-color) solid 2px;
+}
+
+.input {
+  border-radius: 5px;
+  border: 2px solid var(--light-main-color);
+  cursor: pointer;
+}
+
+.input:hover {
+  background-color: #f3f3f3;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  bottom: -2px;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 5px 12px;
+  color: #fff;
+  background-color: var(--light-main-color);
+  border-radius: 10px;
+}
+
+.btn:hover {
+  background-color: #3198ff;
+}
+
+.btn-hollow {
+  padding: 3px 8px;
+  background-color: #fff;
+  border: 2px solid var(--light-main-color);
+  border-radius: 10px;
+}
+
+.btn-hollow:hover {
+  background-color: #f3f3f3;
+}
+
+
+/* /// planning /// */
+.planning__operating {
+  padding-left: 6px;
+}
+
+.planning__operating-text {
+  margin-bottom: 20px;
+}
+
+#until-next-collection-text {
+  margin-left: 8px;
+}
+
+.planning__plan-btn {
+  display: block;
+}
+
+.planning__settings {
+  padding: 0 6px;
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+
+.planning__settings-left {
+  margin-bottom: 20px;
+}
+
+.planning__settings-title {
+  grid-column: 1 / 3;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.planning__settings-right .planning__setting-wrapper:last-child {
+  margin-left: 74px;
+}
+
+.planning__setting-wrapper {
+  margin-bottom: 10px;
+}
+
+.planning__setting-label {
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.planning__days-select-label {
+  margin: 0 0 6px 12px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.planning__days-select-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 45px);
+  grid-template-rows: repeat(4, 1fr);
+  grid-auto-flow: column;
+  gap: 4px 15px;
+}
+
+.planning__day-checkbox-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+}
+
+.planning__day-label {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+.planning__settings-btns {
+  grid-column: 1 / 3;
+}
+
+.planning__save-btn {
+  margin-right: 10px;
+}
+
+
+/* /// process /// */
+
+
+
+/* /// settings /// */
+.settings__setting-wrapper {
+  padding: 0 0 15px 6px;
+}
+
+.settings__setting-label {
+  margin-right: 8px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.settings__input {
+  width: 200px;
+  font-size: 13px;
+}
+
+.settings__btn {
+  padding: 4px 9px;
+  display: block;
+  font-size: 13px;
+}
+
+#data-sheet-path,
+#row-data-dir-path {
+  margin: 0 0 5px 8px;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+#data-sheet-select {
+  margin-left: 338px;
+}
+
+#row-data-dir-select {
+  margin-left: 371px;
 }
