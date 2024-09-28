@@ -4,12 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>Data Funnel</title>
+  <link rel="stylesheet" href="src/css/normalize.css">
+  <link rel="stylesheet" href="src/css/index.css">
 </head>
 
 <body>
   <div class="container">
     <aside class="tabs">
-      <button class="tabs__btn btn-reset" id="tab-data-collecting-btn">
+      <button class="tabs__btn btn-reset" id="tab-planning-btn">
         <img class="tabs__btn-img" src="assets/planning.png" alt="">
         <span class="tabs__btn-text">Планирование</span>
       </button>
@@ -24,7 +26,7 @@
     </aside>
 
     <main class="content">
-      <article class="planning" id="tab-data-collecting">
+      <article class="planning" id="tab-planning-content">
         <div class="planning__head head wrapper-underline">
           <img class="planning__head-img head-img" src="assets/planning.png" alt="">
           <h1 class="planning__head-title head-title title-reset">Планирование сбора данных со счётчиков</h1>
@@ -32,9 +34,9 @@
 
         <div class="planning__operating wrapper-underline">
           <div class="planning__setting-wrapper">
-            <label class="planning__setting-label label" for="enable-collecting-checkbox">Включить плановый сбор</label>
-            <input class="planning__checkbox checkbox" type=checkbox name="enable-collecting-checkbox"
-              id="enable-collecting-checkbox">
+            <label class="planning__setting-label label" for="enable-collection-checkbox">Включить плановый сбор</label>
+            <input class="planning__checkbox checkbox" type=checkbox name="enable-collection-checkbox"
+              id="enable-collection-checkbox">
           </div>
 
           <p class="planning__operating-text paragraph-reset">До следующего сбора: <span
@@ -48,145 +50,145 @@
         <div class="planning__settings">
           <h2 class="planning__settings-title title-reset">Когда запускать автоматический сбор:</h2>
 
-          <div class="planning__settings-left">
-            <span class="planning__days-select-label label">Дни недели</span>
+          <fieldset class="planning__settings-left">
+            <legend class="planning__days-select-label label">Дни недели</legend>
             <div class="planning__days-select-wrapper">
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="mo-day-selector">ПН</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="mo-day-selector" id="mo-day-selector">
+                <label class="planning__day-label" for="mo-day-checkbox">ПН</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="mo-day-checkbox" id="mo-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="tu-day-selector">ВТ</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="tu-day-selector" id="tu-day-selector">
+                <label class="planning__day-label" for="tu-day-checkbox">ВТ</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="tu-day-checkbox" id="tu-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="we-day-selector">СР</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="we-day-selector" id="we-day-selector">
+                <label class="planning__day-label" for="we-day-checkbox">СР</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="we-day-checkbox" id="we-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="th-day-selector">ЧТ</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="th-day-selector" id="th-day-selector">
+                <label class="planning__day-label" for="th-day-checkbox">ЧТ</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="th-day-checkbox" id="th-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="fr-day-selector">ПТ</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="fr-day-selector" id="fr-day-selector">
+                <label class="planning__day-label" for="fr-day-checkbox">ПТ</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="fr-day-checkbox" id="fr-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="sa-day-selector">СБ</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="sa-day-selector" id="sa-day-selector">
+                <label class="planning__day-label" for="sa-day-checkbox">СБ</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="sa-day-checkbox" id="sa-day-checkbox">
               </div>
               <div class="planning__day-checkbox-wrapper">
-                <label class="planning__day-label" for="su-day-selector">ВС</label>
-                <input class="planning__checkbox checkbox" type="checkbox" name="su-day-selector" id="su-day-selector">
+                <label class="planning__day-label" for="su-day-checkbox">ВС</label>
+                <input class="planning__checkbox checkbox" type="checkbox" name="su-day-checkbox" id="su-day-checkbox">
               </div>
             </div>
-          </div>
+          </fieldset>
 
           <div class="planning__settings-right">
             <div class="planning__setting-wrapper">
               <label class="planning__setting-label label" for="tz-select">Временная зона</label>
               <select class="planning__tz-select input" name="tz-select" id="tz-select">
-                <option value="UTC+0">UTC+0</option>
-                <option value="UTC+1">UTC+1</option>
-                <option value="UTC+2">UTC+2</option>
-                <option selected value="UTC+3">UTC+3 (Москва)</option>
-                <option value="UTC+4">UTC+4</option>
-                <option value="UTC+5">UTC+5</option>
-                <option value="UTC+6">UTC+6</option>
-                <option value="UTC+7">UTC+7</option>
-                <option value="UTC+8">UTC+8 (Иркутск)</option>
-                <option value="UTC+9">UTC+9</option>
-                <option value="UTC+10">UTC+10</option>
-                <option value="UTC+11">UTC+11</option>
-                <option value="UTC+12">UTC+12</option>
+                <option value="0">UTC+0</option>
+                <option value="1">UTC+1</option>
+                <option value="2">UTC+2</option>
+                <option value="3">UTC+3 (Москва)</option>
+                <option value="4">UTC+4</option>
+                <option value="5">UTC+5</option>
+                <option value="6">UTC+6</option>
+                <option value="7">UTC+7</option>
+                <option value="8">UTC+8 (Иркутск)</option>
+                <option value="9">UTC+9</option>
+                <option value="10">UTC+10</option>
+                <option value="11">UTC+11</option>
+                <option value="12">UTC+12</option>
               </select>
             </div>
 
             <div class="planning__setting-wrapper">
-              <label class="planning__setting-label label" for="time-select">Время</label>
-              <input class="planning__time-select input" type="time" name="time-select" id="time-select">
+              <label class="planning__setting-label label" for="time-input">Время</label>
+              <input class="planning__time-input input" type="time" name="time-input" id="time-input">
             </div>
           </div>
 
           <div class="planning__settings-btns">
-            <button class="planning__save-btn btn btn-reset" id="plan-btn">Сохранить</button>
+            <button class="planning__save-btn btn btn-reset" id="set-plan-btn">Сохранить</button>
             <button class="planning__cancel-btn btn-hollow btn-reset" id="cancel-plan-btn">Отменить изменения</button>
           </div>
         </div>
       </article>
 
-      <!-- <article class="process" id="tab-process">
+      <article class="process visually-hidden" id="tab-process-content">
         <div class="process__head head wrapper-underline">
           <img class="process__head-img head-img" src="assets/process.png" alt="">
           <h1 class="process__head-title head-title title-reset">Процесс сбора данных со счётчиков</h1>
         </div>
 
-      </article> -->
+      </article>
 
-      <!-- <article class="settings" id="tab-settings">
+      <article class="settings visually-hidden" id="tab-settings-content">
         <div class="settings__head head wrapper-underline">
           <img class="settings__head-img head-img" src="assets/settings.png" alt="">
           <h1 class="settings__head-title head-title title-reset">Настройки</h1>
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="data-fetching-url">Ссылка для запроса данных со
+          <label class="settings__setting-label label" for="data-fetching-url-input">Ссылка для запроса данных со
             счётчиков</label>
-          <input class="settings__input input" type="text" name="data-fetching-url" id="data-fetching-url">
+          <input class="settings__input input" type="text" name="data-fetching-url-input" id="data-fetching-url-input">
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
           <p class="settings__setting-label label paragraph-reset">Сохранять данные со счётчиков в таблицу: <span
               id="data-sheet-path">C:/Users/User/Desktop/data.xlxs</span></p>
-          <button class="settings__btn btn btn-reset" id="data-sheet-select">Выбрать таблицу</button>
+          <button class="settings__btn btn btn-reset" id="select-data-sheet-btn">Выбрать таблицу</button>
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="enable-notifications">Оповещать о завершении сбора</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-notifications"
-            id="enable-notifications">
+          <label class="settings__setting-label label" for="notificate-checkbox">Оповещать о завершении сбора</label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="notificate-checkbox"
+            id="notificate-checkbox">
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="enable-autorun">Запускать программу при включении
+          <label class="settings__setting-label label" for="autorun-checkbox">Запускать программу при включении
             компьютера</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-autorun" id="enable-autorun">
+          <input class="settings__checkbox checkbox" type="checkbox" name="autorun-checkbox" id="autorun-checkbox">
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="enable-power-save-bloker">Препятствовать переходу компьютера
-            в режим
-            сна</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-power-save-bloker"
-            id="enable-power-save-bloker">
+          <label class="settings__setting-label label" for="power-save-block-checkbox">Препятствовать переходу
+            компьютера в режим сна</label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="power-save-block-checkbox"
+            id="power-save-block-checkbox">
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
-          <label class="settings__setting-label label" for="enable-full-quit">Завершать процесс при закрытии
+          <label class="settings__setting-label label" for="full-app-quit-checkbox">Завершать процесс при закрытии
             окна</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-full-quit" id="enable-full-quit">
+          <input class="settings__checkbox checkbox" type="checkbox" name="full-app-quit-checkbox"
+            id="full-app-quit-checkbox">
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="enable-row-data-saving">
+          <label class="settings__setting-label label" for="save-row-data-checkbox">
             Дополнительно сохранять данные со счётчиков в отдельные текстовые файлы
           </label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-row-data-saving"
-            id="enable-row-data-saving">
+          <input class="settings__checkbox checkbox" type="checkbox" name="save-row-data-checkbox"
+            id="save-row-data-checkbox">
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
           <p class="settings__setting-label label paragraph-reset">Сохранять запасные файлы с данными в папку:
             <span id="row-data-dir-path">C:/Users/User/Desktop/row-data</span>
           </p>
-          <button class="settings__btn btn btn-reset" id="row-data-dir-select">Выбрать папку</button>
+          <button class="settings__btn btn btn-reset" id="select-row-data-dir-btn">Выбрать папку</button>
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="enable-logging">Включить логирование</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="enable-logging" id="enable-logging">
+          <label class="settings__setting-label label" for="logging-checkbox">Включить логирование</label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="logging-checkbox" id="logging-checkbox">
         </div>
-      </article> -->
+      </article>
     </main>
   </div>
 

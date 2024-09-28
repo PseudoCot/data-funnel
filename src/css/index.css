@@ -208,7 +208,9 @@ img {
 }
 
 .planning__settings-left {
+  padding-right: 20px;
   margin-bottom: 20px;
+  width: fit-content;
 }
 
 .planning__settings-title {

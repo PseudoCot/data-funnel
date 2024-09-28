@@ -1,2 +1,10 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
+import { contextBridge, ipcRenderer, OpenDialogOptions } from "electron";
+
+contextBridge.exposeInMainWorld('dialogAPI', {
+  getFilePath: (options: OpenDialogOptions) => ipcRenderer.invoke('dialog:getFilePath', options)
+})
+
+contextBridge.exposeInMainWorld('settingsAPI', {
+  set: (key: string, value: string) => ipcRenderer.invoke('settings:set', key, value),
+  get: (key: string) => ipcRenderer.invoke('settings:get', key),
+})

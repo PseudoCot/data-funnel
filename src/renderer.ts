@@ -1,4 +1,12 @@
-import './normalize.css';
-import './index.css';
+import './css/normalize.css';
+import './css/index.css';
+import { setPlanningInitialValues } from './renderer/planning';
+import { setSettingsInitialValues } from './renderer/settings';
+import { selectTabContent, setTabBtnsHandlers } from './renderer/tabs';
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+
+setPlanningInitialValues();
+setSettingsInitialValues();
+selectTabContent('planning');
+setTabBtnsHandlers();
+
