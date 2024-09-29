@@ -39,6 +39,7 @@
   "dependencies": {
     "cheerio": "^1.0.0",
     "electron-settings": "^4.0.4",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "pino": "^9.4.0"
   }
 }
