@@ -63,6 +63,7 @@ const createWindow = () => {
     fullscreen: false,
     fullscreenable: false,
     webPreferences: {
+      webviewTag: true,
       preload: path.join(__dirname, 'preload.js'),
     },
     icon: 'assets/funnel.png',

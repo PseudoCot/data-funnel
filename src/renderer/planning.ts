@@ -1,3 +1,4 @@
+import { scrapHtmlByUrl } from "../utils/scrap-html-by-url";
 import { updateSettingByEventCreator } from "../utils/update-setting-by-event-creator";
 
 const collectionCheckbox = document.getElementById('enable-collection-checkbox') as HTMLInputElement;
@@ -36,8 +37,8 @@ export function setPlanningInitialValues() {
 export function setPlanningHandlers() {
   collectionCheckbox.onchange = updateSettingByEventCreator('collection.enabled', true);
 
-  concudtCollectionBtn.onclick = async () => {
-    console.log('TODO'); ////////////
+  concudtCollectionBtn.onclick = () => {
+    scrapHtmlByUrl('https://github.com/PseudoCot?tab=repositories');
   };
   setPlanBtn.onclick = async () => {
     updateCollectionSettings();
