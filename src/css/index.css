@@ -295,7 +295,7 @@ img {
 }
 
 #data-sheet-path,
-#row-data-dir-path {
+#raw-data-dir-path {
   margin: 0 0 5px 8px;
   display: inline-block;
   font-size: 15px;
@@ -306,6 +306,6 @@ img {
   margin-left: 338px;
 }
 
-#row-data-dir-select {
+#raw-data-dir-select {
   margin-left: 371px;
 }

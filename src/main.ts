@@ -24,7 +24,7 @@ const SETTINGS_DEFAULTS = {
     powerSaveBlockerEnabled: false,
     fullAppQuitEnabled: true,
   },
-  rowData: {
+  rawData: {
     savingEnabled: false,
     dirPath: '',
   },

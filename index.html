@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Data Funnel</title>
+
   <link rel="stylesheet" href="src/css/normalize.css">
   <link rel="stylesheet" href="src/css/index.css">
+
 </head>
 
 <body>
@@ -145,9 +147,8 @@
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="notificate-checkbox">Оповещать о завершении сбора</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="notificate-checkbox"
-            id="notificate-checkbox">
+          <label class="settings__setting-label label" for="notify-checkbox">Оповещать о завершении сбора</label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="notify-checkbox" id="notify-checkbox">
         </div>
 
         <div class="settings__setting-wrapper">
@@ -171,18 +172,18 @@
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="save-row-data-checkbox">
+          <label class="settings__setting-label label" for="save-raw-data-checkbox">
             Дополнительно сохранять данные со счётчиков в отдельные текстовые файлы
           </label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="save-row-data-checkbox"
-            id="save-row-data-checkbox">
+          <input class="settings__checkbox checkbox" type="checkbox" name="save-raw-data-checkbox"
+            id="save-raw-data-checkbox">
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
           <p class="settings__setting-label label paragraph-reset">Сохранять запасные файлы с данными в папку:
-            <span id="row-data-dir-path">C:/Users/User/Desktop/row-data</span>
+            <span id="raw-data-dir-path">C:/Users/User/Desktop/raw-data</span>
           </p>
-          <button class="settings__btn btn btn-reset" id="select-row-data-dir-btn">Выбрать папку</button>
+          <button class="settings__btn btn btn-reset" id="select-raw-data-dir-btn">Выбрать папку</button>
         </div>
 
         <div class="settings__setting-wrapper">
