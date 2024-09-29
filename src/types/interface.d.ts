@@ -10,9 +10,17 @@ export interface ISettingsAPI {
   get: (key: string) => Promise<SettingsValue>,
 }
 
+export interface ICollectionAPI {
+  // error string, or else ''
+  collectCountersData: () => Promise<string>,
+  onFetchHtml: (callback: (value) => void) => void,
+  processHtml: (html: string) => void,
+}
+
 declare global {
   interface Window {
     settingsAPI: ISettingsAPI;
     dialogAPI: IDialogAPI;
+    collectionAPI: ICollectionAPI;
   }
 }

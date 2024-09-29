@@ -1,4 +1,4 @@
-import { updateSettingByEventCreator } from "../utils/update-setting-by-event-creator";
+import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by-event-creator";
 
 const dataFetchingUrlInput = document.getElementById('data-fetching-url-input') as HTMLInputElement;
 const dataSheetPathText = document.getElementById('data-sheet-path');

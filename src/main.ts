@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import settings from 'electron-settings';
-import { handleFileOpen } from './utils/handle-file-open';
+import { handleFileOpen } from './renderer-utils/handle-file-open';
+import { processCountersData } from './main-utils/process-counters-data';
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
@@ -45,16 +46,32 @@ if (require('electron-squirrel-startup')) {
   }
 })();
 
-const createWindow = () => {
-  ipcMain.handle('dialog:getFilePath', (event, options) => {
+function setIpcHandlers() {
+  ipcMain.handle('dialog:getFilePath', (_, options) => {
     return handleFileOpen(options);
   });
-  ipcMain.handle('settings:set', (event, key, value) => {
+
+  ipcMain.handle('settings:set', (_, key, value) => {
     return settings.set(key, value);
   });
-  ipcMain.handle('settings:get', (event, key) => {
+  ipcMain.handle('settings:get', (_, key) => {
     return settings.get(key);
   });
+}
+
+function setLateIpcHandlers(mainWindow: BrowserWindow) {
+  ipcMain.on('collection:collect', () => {
+    console.log('collect');
+    mainWindow.webContents.send('collection:fetchHtml', settings.getSync('data.fetchingUrl').toString());
+  });
+  ipcMain.handle('collection:processHtml', (_, html) => {
+    console.log('process');
+    return processCountersData(html);
+  });
+}
+
+const createWindow = () => {
+  setIpcHandlers();
 
   const mainWindow = new BrowserWindow({
     minWidth: 800, width: 1000, maxWidth: 1200,
@@ -70,6 +87,8 @@ const createWindow = () => {
     title: 'Data Funnel',
     backgroundColor: '#DBDFE3',
   });
+
+  setLateIpcHandlers(mainWindow);
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
