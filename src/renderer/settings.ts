@@ -3,17 +3,25 @@ import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by
 import { setPlanningInitialValues } from "./planning";
 
 const dataFetchingUrlInput = document.getElementById('data-fetching-url-input') as HTMLInputElement;
-const dataSheetPathText = document.getElementById('data-sheet-path');
-const dataSheetSelectBtn = document.getElementById('select-data-sheet-btn') as HTMLButtonElement;
+const templateSheetPathEl = document.getElementById('template-sheet-path');
+const selectTemplateSheetBtn = document.getElementById('select-template-sheet-btn') as HTMLButtonElement;
+
+const saveSharedDataCheckbox = document.getElementById('save-shared-data-checkbox') as HTMLInputElement;
+const sharedSheetPathEl = document.getElementById('shared-sheet-path');
+const selectSharedSheetBtn = document.getElementById('select-shared-sheet-btn') as HTMLButtonElement;
+
+const saveSeparatedDataCheckbox = document.getElementById('save-separated-data-checkbox') as HTMLInputElement;
+const separatedSheetsDirPathEl = document.getElementById('separated-sheets-dir-path');
+const selectSeparatedSheetsDirBtn = document.getElementById('select-separated-sheets-dir-btn') as HTMLButtonElement;
+
+const saveRawDataCheckbox = document.getElementById('save-raw-data-checkbox') as HTMLInputElement;
+const rawDataDirPathEl = document.getElementById('raw-data-dir-path');
+const selectRawDataDirBtn = document.getElementById('select-raw-data-dir-btn') as HTMLButtonElement;
 
 const notifyCheckbox = document.getElementById('notify-checkbox') as HTMLInputElement;
 const autorunCheckbox = document.getElementById('autorun-checkbox') as HTMLInputElement;
 const powerSaveBlokCheckbox = document.getElementById('power-save-block-checkbox') as HTMLInputElement;
 const fullAppQuitCheckbox = document.getElementById('full-app-quit-checkbox') as HTMLInputElement;
-
-const rawDataSavingCheckbox = document.getElementById('save-raw-data-checkbox') as HTMLInputElement;
-const rawDataDirPathText = document.getElementById('raw-data-dir-path');
-const rawDataDirSelectBtn = document.getElementById('select-raw-data-dir-btn') as HTMLButtonElement;
 
 const loggingCheckbox = document.getElementById('logging-checkbox') as HTMLInputElement;
 
@@ -22,28 +30,49 @@ const resetSettingsBtn = document.getElementById('reset-settings-btn') as HTMLBu
 
 export function setSettingsInitialValues() {
   window.settingsAPI.get('data.fetchingUrl').then((v) => (dataFetchingUrlInput.value = v.toString()));
-  window.settingsAPI.get('data.sheetFilePath').then((v) => (dataSheetPathText.innerText = v?.toString() || 'Не выбрано'));
+
+  window.settingsAPI.get('data.templateSheetPath').then((v) => (templateSheetPathEl.innerText = v?.toString() || 'Не выбрано'));
+  window.settingsAPI.get('data.saveSharedSheet').then((v) => (saveSharedDataCheckbox.checked = !!v));
+  window.settingsAPI.get('data.sharedSheetPath').then((v) => (sharedSheetPathEl.innerText = v?.toString() || 'Не выбрано'));
+  window.settingsAPI.get('data.saveSeparatedSheets').then((v) => (saveSeparatedDataCheckbox.checked = !!v));
+  window.settingsAPI.get('data.separatedSheetsDirPath').then((v) => (separatedSheetsDirPathEl.innerText = v?.toString() || 'Не выбрано'));
+  window.settingsAPI.get('data.saveRawData').then((v) => (saveRawDataCheckbox.checked = !!v));
+  window.settingsAPI.get('data.rawDataDirPath').then((v) => (rawDataDirPathEl.innerText = v?.toString() || 'Не выбрано'));
+
   window.settingsAPI.get('settings.notificationsEnabled').then((v) => (notifyCheckbox.checked = !!v));
   window.settingsAPI.get('settings.autorunEnabled').then((v) => (autorunCheckbox.checked = !!v));
   window.settingsAPI.get('settings.powerSaveBlockerEnabled').then((v) => (powerSaveBlokCheckbox.checked = !!v));
   window.settingsAPI.get('settings.fullAppQuitEnabled').then((v) => (fullAppQuitCheckbox.checked = !!v));
-  window.settingsAPI.get('rawData.savingEnabled').then((v) => (rawDataSavingCheckbox.checked = !!v));
-  window.settingsAPI.get('rawData.dirPath').then((v) => (rawDataDirPathText.innerText = v?.toString() || 'Не выбрано'));
   window.settingsAPI.get('logging.loggingEnabled').then((v) => (loggingCheckbox.checked = !!v));
 }
 
 export function setSettingsHandlers() {
   dataFetchingUrlInput.onchange = updateSettingByEventCreator('data.fetchingUrl');
-  dataSheetSelectBtn.onclick = handleSheetSelectBtnClick;
+
+  selectTemplateSheetBtn.onclick = handleSelectSheetBtnClickCreator(async (filePath) => {
+    templateSheetPathEl.innerText = filePath;
+    await window.settingsAPI.set('data.templateSheetPath', filePath)
+  });
+  saveSharedDataCheckbox.onchange = updateSettingByEventCreator('data.saveSharedSheet', true);
+  selectSharedSheetBtn.onclick = handleSelectSheetBtnClickCreator(async (filePath) => {
+    sharedSheetPathEl.innerText = filePath;
+    await window.settingsAPI.set('data.sharedSheetPath', filePath)
+  });
+  saveSeparatedDataCheckbox.onchange = updateSettingByEventCreator('data.saveSeparatedSheets', true);
+  selectSeparatedSheetsDirBtn.onclick = handleSelectDirBtnClickCreator(async (dirPath) => {
+    separatedSheetsDirPathEl.innerText = dirPath;
+    await window.settingsAPI.set('data.separatedSheetsDirPath', dirPath)
+  });
+  saveRawDataCheckbox.onchange = updateSettingByEventCreator('data.saveRawData', true);
+  selectRawDataDirBtn.onclick = handleSelectDirBtnClickCreator(async (dirPath) => {
+    rawDataDirPathEl.innerText = dirPath;
+    await window.settingsAPI.set('data.rawDataDirPath', dirPath)
+  });
 
   notifyCheckbox.onchange = updateSettingByEventCreator('settings.notificationsEnabled', true);
   autorunCheckbox.onchange = updateSettingByEventCreator('settings.autorunEnabled', true);
   powerSaveBlokCheckbox.onchange = updateSettingByEventCreator('settings.powerSaveBlockerEnabled', true);
   fullAppQuitCheckbox.onchange = updateSettingByEventCreator('settings.fullAppQuitEnabled', true);
-
-  rawDataSavingCheckbox.onchange = updateSettingByEventCreator('rawData.savingEnabled', true);
-  rawDataDirSelectBtn.onclick = handleRowDataDirSelectBtnClick;
-
   loggingCheckbox.onchange = updateSettingByEventCreator('logging.enabled', true);
 
   resetSettingsBtn.onclick = handleResetSettingsBtnClick;
@@ -51,43 +80,46 @@ export function setSettingsHandlers() {
 
 export function clearSettingsHandlers() {
   dataFetchingUrlInput.onchange = undefined;
-  dataSheetSelectBtn.onclick = undefined;
+
+  selectTemplateSheetBtn.onclick = undefined;
+  saveSharedDataCheckbox.onchange = undefined;
+  selectSharedSheetBtn.onclick = undefined;
+  saveSeparatedDataCheckbox.onchange = undefined;
+  selectSeparatedSheetsDirBtn.onclick = undefined;
+  saveRawDataCheckbox.onchange = undefined;
+  selectRawDataDirBtn.onclick = undefined;
 
   notifyCheckbox.onchange = undefined;
   autorunCheckbox.onchange = undefined;
   powerSaveBlokCheckbox.onchange = undefined;
   fullAppQuitCheckbox.onchange = undefined;
-
-  rawDataSavingCheckbox.onchange = undefined;
-  rawDataDirSelectBtn.onclick = undefined;
-
   loggingCheckbox.onchange = undefined;
+
+  resetSettingsBtn.onclick = undefined;
 }
 
 
-async function handleSheetSelectBtnClick() {
-  const filePath = await window.dialogAPI.getFilePath({
-    filters: [
-      { name: 'Sheets', extensions: ['xlsx', 'xls'] },
-      { name: 'All Files', extensions: ['*'] }
-    ],
-    properties: ['openFile'],
-  });
+function handleSelectSheetBtnClickCreator(callback: (filePath: string) => void) {
+  return async () => {
+    const filePath = await window.dialogAPI.getFilePath({
+      filters: [
+        { name: 'Sheets', extensions: ['xlsx', 'xls'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      properties: ['openFile'],
+    });
 
-  if (filePath) {
-    dataSheetPathText.innerText = filePath;
-    await window.settingsAPI.set('data.sheetFilePath', filePath)
+    if (filePath) callback(filePath);
   }
 }
 
-async function handleRowDataDirSelectBtnClick() {
-  const dirPath = await window.dialogAPI.getFilePath({
-    properties: ['openDirectory'],
-  });
+function handleSelectDirBtnClickCreator(callback: (dirPath: string) => void) {
+  return async () => {
+    const dirPath = await window.dialogAPI.getFilePath({
+      properties: ['openDirectory'],
+    });
 
-  if (dirPath) {
-    rawDataDirPathText.innerText = dirPath;
-    await window.settingsAPI.set('rawData.dirPath', dirPath)
+    if (dirPath) callback(dirPath);
   }
 }
 

@@ -119,6 +119,9 @@
         </div>
       </article>
 
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
       <article class="process visually-hidden" id="tab-process-content">
         <div class="process__head head wrapper-underline">
           <img class="process__head-img head-img" src="assets/process.png" alt="">
@@ -128,6 +131,9 @@
         <div class="process__webview-container" id="webview-container"></div>
       </article>
 
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
       <article class="settings visually-hidden" id="tab-settings-content">
         <div class="settings__head head wrapper-underline">
           <img class="settings__head-img head-img" src="assets/settings.png" alt="">
@@ -135,41 +141,57 @@
         </div>
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="data-fetching-url-input">Ссылка для запроса данных со
-            счётчиков</label>
+          <label class="settings__setting-label label" for="data-fetching-url-input">
+            Ссылка для запроса данных со счётчиков
+          </label>
           <input class="settings__input input" type="text" name="data-fetching-url-input" id="data-fetching-url-input">
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
-          <p class="settings__setting-label label paragraph-reset">Сохранять данные со счётчиков в таблицу: <span
-              id="data-sheet-path">C:/Users/User/Desktop/data.xlxs</span></p>
-          <button class="settings__btn btn btn-reset" id="select-data-sheet-btn">Выбрать таблицу</button>
+          <p class="settings__setting-label label paragraph-reset">
+            Путь к шаблону таблицы:
+            <span id="template-sheet-path">C:/Users/User/Desktop/template.xlxs</span>
+          </p>
+          <button class="settings__btn btn btn-reset" id="select-template-sheet-btn">Выбрать шаблон</button>
         </div>
 
-        <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="notify-checkbox">Оповещать о завершении сбора</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="notify-checkbox" id="notify-checkbox">
-        </div>
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
 
         <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="autorun-checkbox">Запускать программу при включении
-            компьютера</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="autorun-checkbox" id="autorun-checkbox">
-        </div>
-
-        <div class="settings__setting-wrapper">
-          <label class="settings__setting-label label" for="power-save-block-checkbox">Препятствовать переходу
-            компьютера в режим сна</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="power-save-block-checkbox"
-            id="power-save-block-checkbox">
+          <label class="settings__setting-label label" for="save-shared-data-checkbox">
+            Сохранять данные со счётчиков в общую таблицу
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="save-shared-data-checkbox"
+            id="save-shared-data-checkbox" disabled>
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
-          <label class="settings__setting-label label" for="full-app-quit-checkbox">Завершать процесс при закрытии
-            окна</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="full-app-quit-checkbox"
-            id="full-app-quit-checkbox">
+          <p class="settings__setting-label label paragraph-reset">
+            Путь к общей таблице:
+            <span id="shared-sheet-path">C:/Users/User/Desktop/data.xlxs</span>
+          </p>
+          <button class="settings__btn btn btn-reset" id="select-shared-sheet-btn">Выбрать таблицу</button>
         </div>
+
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <div class="settings__setting-wrapper">
+          <label class="settings__setting-label label" for="save-separated-data-checkbox">
+            Сохранять данные со счётчиков в отдельные таблицы для каждого сбора
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="save-separated-data-checkbox"
+            id="save-separated-data-checkbox">
+        </div>
+
+        <div class="settings__setting-wrapper wrapper-underline">
+          <p class="settings__setting-label label paragraph-reset">
+            Путь к папке для раздельных таблиц:
+            <span id="separated-sheets-dir-path">C:/Users/User/Desktop/datas</span>
+          </p>
+          <button class="settings__btn btn btn-reset" id="select-separated-sheets-dir-btn">Выбрать таблицу</button>
+        </div>
+
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
 
         <div class="settings__setting-wrapper">
           <label class="settings__setting-label label" for="save-raw-data-checkbox">
@@ -180,20 +202,63 @@
         </div>
 
         <div class="settings__setting-wrapper wrapper-underline">
-          <p class="settings__setting-label label paragraph-reset">Сохранять запасные файлы с данными в папку:
+          <p class="settings__setting-label label paragraph-reset">
+            Путь к папке для запасных файлов:
             <span id="raw-data-dir-path">C:/Users/User/Desktop/raw-data</span>
           </p>
           <button class="settings__btn btn btn-reset" id="select-raw-data-dir-btn">Выбрать папку</button>
         </div>
 
-        <div class="settings__setting-wrapper wrapper-underline">
-          <label class="settings__setting-label label" for="logging-checkbox">Включить логирование</label>
-          <input class="settings__checkbox checkbox" type="checkbox" name="logging-checkbox" id="logging-checkbox">
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <div class="settings__setting-wrapper">
+          <label class="settings__setting-label label" for="notify-checkbox">
+            Оповещать о завершении сбора
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="notify-checkbox" id="notify-checkbox"
+            disabled>
         </div>
 
         <div class="settings__setting-wrapper">
-          <p class="settings__setting-text text paragraph-reset">Если сломалась программа, то попробуйте сбросить
-            настройки и перезапустить её</p>
+          <label class="settings__setting-label label" for="autorun-checkbox">
+            Запускать программу при включении компьютера
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="autorun-checkbox" id="autorun-checkbox"
+            disabled>
+        </div>
+
+        <div class="settings__setting-wrapper">
+          <label class="settings__setting-label label" for="power-save-block-checkbox">
+            Препятствовать переходу компьютера в режим сна
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="power-save-block-checkbox"
+            id="power-save-block-checkbox" disabled>
+        </div>
+
+        <div class="settings__setting-wrapper wrapper-underline">
+          <label class="settings__setting-label label" for="full-app-quit-checkbox">
+            Завершать процесс при закрытии окна
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="full-app-quit-checkbox"
+            id="full-app-quit-checkbox" disabled>
+        </div>
+
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <div class="settings__setting-wrapper wrapper-underline">
+          <label class="settings__setting-label label" for="logging-checkbox">
+            Включить логирование
+          </label>
+          <input class="settings__checkbox checkbox" type="checkbox" name="logging-checkbox" id="logging-checkbox"
+            disabled>
+        </div>
+
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <div class="settings__setting-wrapper">
+          <p class="settings__setting-text text paragraph-reset">
+            Если сломалась программа, то попробуйте сбросить настройки и полностью перезапустить
+          </p>
           <button class="settings__btn btn-hollow btn-reset" id="reset-settings-btn">Сбросить настройки</button>
         </div>
       </article>

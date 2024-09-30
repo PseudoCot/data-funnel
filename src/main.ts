@@ -19,19 +19,19 @@ const SETTINGS_DEFAULTS = {
   },
   data: {
     fetchingUrl: '',
-    sharedSheetPath: '',
     templateSheetPath: '',
+    saveSharedSheet: false,
+    sharedSheetPath: '',
+    saveSeparatedSheets: true,
     separatedSheetsDirPath: '',
+    saveRawData: false,
+    rawDataDirPath: '',
   },
   settings: {
     notificationsEnabled: false,
     autorunEnabled: false,
     powerSaveBlockerEnabled: false,
     fullAppQuitEnabled: true,
-  },
-  rawData: {
-    savingEnabled: false,
-    dirPath: '',
   },
   logging: {
     enabled: false,

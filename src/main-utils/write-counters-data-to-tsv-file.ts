@@ -2,7 +2,7 @@ import settings from 'electron-settings';
 import { TSVFileWriter } from "../libs/tsv-file-writer";
 
 export async function writeCountersDataToTsvFile(tsvData: string[]) {
-  const rawDataDirPath = settings.getSync('rawData.dirPath').toString();
+  const rawDataDirPath = settings.getSync('data.rawDataDirPath').toString();
   const dateTime = new Date().toLocaleString();
   const fileWriter = new TSVFileWriter(`${rawDataDirPath}/${dateTime.replaceAll('/', '-').replaceAll(':', '-')}.tsv`);
 

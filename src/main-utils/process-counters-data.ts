@@ -17,7 +17,7 @@ export function processCountersData(win: BrowserWindow, html: string, saveRawDat
     })
     .then(async (data) => {
       showProgressInTaskbar(win, 0.75);
-      if (saveRawData || !!settings.getSync('rawData.savingEnabled')) {
+      if (saveRawData || !!settings.getSync('data.saveRawData')) {
         const tsvData = await prepareCountersDataForTsvFile(data);
         showProgressInTaskbar(win, 0.90);
         writeCountersDataToTsvFile(tsvData);
