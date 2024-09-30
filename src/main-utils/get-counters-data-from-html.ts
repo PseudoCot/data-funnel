@@ -16,13 +16,13 @@ export async function getCountersDataFromHtml(html: string) {
     const nameStartIndex = $(cells[1]).text().indexOf('Ш');
     const counterData: CounterData = {
       name: $(cells[1]).text().substring(nameStartIndex),
-      u1: $(cells[2]).text(),
-      u2: $(cells[3]).text(),
-      u3: $(cells[4]).text(),
+      t: ((+$(cells[8]).text()) + (+$(cells[9]).text()) + (+$(cells[10]).text()) + (+$(cells[11]).text())) / 120,
       i1: $(cells[5]).text(),
       i2: $(cells[6]).text(),
       i3: $(cells[7]).text(),
-      t: ((+$(cells[8]).text()) + (+$(cells[9]).text()) + (+$(cells[10]).text()) + (+$(cells[11]).text())) / 120
+      u1: $(cells[2]).text(),
+      u2: $(cells[3]).text(),
+      u3: $(cells[4]).text(),
     };
     result.push(counterData);
   }

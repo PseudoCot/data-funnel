@@ -1,4 +1,10 @@
+import { CronJob } from "cron";
 import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by-event-creator";
+import { startCountdownUntilDatetime, stopCountdown } from "../renderer-utils/start-countdown-until-datetime";
+import { DaysCheck } from "../types/types";
+import { forgetJob, planJob } from "../main-utils/plan-job";
+
+let job: CronJob;
 
 const collectionCheckbox = document.getElementById('enable-collection-checkbox') as HTMLInputElement;
 const concudtCollectionBtn = document.getElementById('concudt-collection-btn') as HTMLButtonElement;
@@ -19,7 +25,10 @@ const cancelPlanBtn = document.getElementById('cancel-plan-btn') as HTMLButtonEl
 
 
 export function setPlanningInitialValues() {
-  window.settingsAPI.get('collection.enabled').then((v) => (collectionCheckbox.checked = !!v));
+  window.settingsAPI.get('collection.enabled').then((v) => {
+    collectionCheckbox.checked = !!v;
+    handleCollectionSettingsChange();
+  });
 
   window.settingsAPI.get('collection.days.mo').then((v) => (mondayCheckbox.checked = !!v));
   window.settingsAPI.get('collection.days.tu').then((v) => (tuesdayCheckbox.checked = !!v));
@@ -34,13 +43,22 @@ export function setPlanningInitialValues() {
 }
 
 export function setPlanningHandlers() {
-  collectionCheckbox.onchange = updateSettingByEventCreator('collection.enabled', true);
+  const collectionCheckboxHandler = updateSettingByEventCreator('collection.enabled', true);
+  collectionCheckbox.onchange = (ev) => {
+    collectionCheckboxHandler(ev);
+    if ((ev.target as HTMLInputElement).checked) {
+      handleJobPlanning();
+    } else {
+      handleJobForgetting();
+    }
+  };
 
   concudtCollectionBtn.onclick = async () => {
     window.collectionAPI.collectCountersData();
   };
   setPlanBtn.onclick = async () => {
     updateCollectionSettings();
+    handleCollectionSettingsChange();
   };
   cancelPlanBtn.onclick = async () => {
     setPlanningInitialValues();
@@ -66,4 +84,44 @@ export async function updateCollectionSettings() {
   await window.settingsAPI.set('collection.days.su', sundayCheckbox.checked)
   await window.settingsAPI.set('collection.tzOffset', +tzSelect.value)
   await window.settingsAPI.set('collection.time', timeInput.value)
+}
+
+export function handleCollectionSettingsChange() {
+  if (collectionCheckbox.checked) {
+    handleJobPlanning(true);
+  }
+}
+
+async function handleJobPlanning(settingsChanged = false) {
+  let tzOffset: number, time: string, days: DaysCheck
+  if (settingsChanged) {
+    tzOffset = +tzSelect.value;
+    time = timeInput.value;
+    days = {
+      mo: mondayCheckbox.checked,
+      tu: tuesdayCheckbox.checked,
+      we: wensdayCheckbox.checked,
+      th: thursdayCheckbox.checked,
+      fr: fridayCheckbox.checked,
+      sa: saturdayCheckbox.checked,
+      su: sundayCheckbox.checked,
+    };
+  } else {
+    tzOffset = +(await window.settingsAPI.get('collection.tzOffset'));
+    time = (await window.settingsAPI.get('collection.time')).toString();
+    days = (await window.settingsAPI.get('collection.days')) as DaysCheck;
+  }
+  job = planJob(tzOffset, time, days, handleJobActivating);
+  startCountdownUntilDatetime(job.nextDate());
+}
+
+function handleJobActivating() {
+  window.collectionAPI.collectCountersData();
+  startCountdownUntilDatetime(job.nextDate());
+}
+
+function handleJobForgetting() {
+  forgetJob();
+  job = undefined;
+  stopCountdown();
 }

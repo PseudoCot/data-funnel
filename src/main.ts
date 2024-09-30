@@ -1,8 +1,10 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import settings from 'electron-settings';
+import Squirrel from "electron-squirrel-startup";
 import { handleFileOpen } from './renderer-utils/handle-file-open';
 import { processCountersData } from './main-utils/process-counters-data';
+
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
@@ -34,17 +36,21 @@ const SETTINGS_DEFAULTS = {
   },
 };
 
-if (require('electron-squirrel-startup')) {
+if (Squirrel) {
   app.quit();
 }
 
-(function setSettingsDefaultValues() {
+
+setSettingsDefaultValues();
+
+
+function setSettingsDefaultValues() {
   const initialized = settings.getSync('initialized');
 
   if (!initialized) {
     settings.setSync(SETTINGS_DEFAULTS);
   }
-})();
+}
 
 function setIpcHandlers() {
   ipcMain.handle('dialog:getFilePath', (_, options) => {
@@ -57,15 +63,16 @@ function setIpcHandlers() {
   ipcMain.handle('settings:get', (_, key) => {
     return settings.get(key);
   });
+  ipcMain.on('settings:setDefault', () => {
+    setSettingsDefaultValues();
+  });
 }
 
 function setLateIpcHandlers(mainWindow: BrowserWindow) {
   ipcMain.on('collection:collect', () => {
-    console.log('collect');
     mainWindow.webContents.send('collection:fetchHtml', settings.getSync('data.fetchingUrl').toString());
   });
   ipcMain.handle('collection:processHtml', (_, html) => {
-    console.log('process');
     return processCountersData(html);
   });
 }
@@ -81,6 +88,7 @@ const createWindow = () => {
     fullscreenable: false,
     webPreferences: {
       webviewTag: true,
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),
     },
     icon: 'assets/funnel.png',
