@@ -19,7 +19,9 @@ const SETTINGS_DEFAULTS = {
   },
   data: {
     fetchingUrl: '',
-    sheetFilePath: '',
+    sharedSheetPath: '',
+    templateSheetPath: '',
+    separatedSheetsDirPath: '',
   },
   settings: {
     notificationsEnabled: false,
@@ -76,11 +78,13 @@ function setIpcHandlers() {
 }
 
 function setLateIpcHandlers(mainWindow: BrowserWindow) {
-  ipcMain.on('collection:collect', () => {
-    mainWindow.webContents.send('collection:fetchHtml', settings.getSync('data.fetchingUrl').toString());
-  });
-  ipcMain.handle('collection:processHtml', (_, html) => {
-    return processCountersData(html);
+  ipcMain.on('collection:collect', (_, saveRawData) => {
+    const url = settings.getSync('data.fetchingUrl').toString();
+    mainWindow.webContents.send('collection:fetchHtml', url);
+    ipcMain.handle('collection:processHtml', (_, html) => {
+      ipcMain.removeHandler('collection:processHtml');
+      return processCountersData(html, saveRawData);
+    });
   });
 }
 

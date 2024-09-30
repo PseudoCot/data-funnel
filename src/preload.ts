@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('settingsAPI', {
 });
 
 contextBridge.exposeInMainWorld('collectionAPI', {
-  collectCountersData: () => ipcRenderer.send('collection:collect'),
+  collectCountersData: (saveRawData?: boolean) => ipcRenderer.send('collection:collect', saveRawData),
 
   onFetchHtml: (callback: (url: string) => Promise<unknown>) =>
     ipcRenderer.on('collection:fetchHtml', (_, value) => callback(value)),

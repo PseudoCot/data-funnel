@@ -1,0 +1,1 @@
+export const TIME_TO_COLLECT_DATA = 5000;

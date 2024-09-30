@@ -25,3 +25,5 @@ export type CounterData = {
   i3: string,
   t: number,
 }
+
+export type ProgressType = 'none' | 'normal' | 'indeterminate' | 'error' | 'paused'

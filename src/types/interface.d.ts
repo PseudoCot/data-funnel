@@ -15,7 +15,7 @@ export interface ISettingsAPI {
 
 export interface ICollectionAPI {
   // error string, or else ''
-  collectCountersData: () => Promise<string>,
+  collectCountersData: (saveRawData?: boolean) => Promise<string>,
   onFetchHtml: (callback: (value) => void) => void,
   processHtml: (html: string) => void,
 }

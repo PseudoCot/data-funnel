@@ -3,8 +3,11 @@ import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by
 import { startCountdownUntilDatetime, stopCountdown } from "../renderer-utils/start-countdown-until-datetime";
 import { DaysCheck } from "../types/types";
 import { forgetJob, planJob } from "../main-utils/plan-job";
+import { MessageBoxOptions } from "electron";
+import { TIME_TO_COLLECT_DATA } from "../consts";
 
 let job: CronJob;
+let isCollectingData = false;
 
 const collectionCheckbox = document.getElementById('enable-collection-checkbox') as HTMLInputElement;
 const concudtCollectionBtn = document.getElementById('concudt-collection-btn') as HTMLButtonElement;
@@ -54,7 +57,20 @@ export function setPlanningHandlers() {
   };
 
   concudtCollectionBtn.onclick = async () => {
-    window.collectionAPI.collectCountersData();
+    if (isCollectingData) return;
+
+    isCollectingData = true;
+    const options: MessageBoxOptions = {
+      message: 'Сохранить ли дополнительно данные со счётчиков в текстовый файл?',
+      type: 'question',
+      buttons: ['Да', 'Нет', 'Отмена'],
+      defaultId: 2,
+      title: 'Внепланновый сбор данных',
+      cancelId: 2,
+    };
+    const clickedBtn = await window.dialogAPI.showMessageBoxSync(options);
+    window.collectionAPI.collectCountersData(clickedBtn === 0);
+    setTimeout(() => (isCollectingData = false), TIME_TO_COLLECT_DATA);
   };
   setPlanBtn.onclick = async () => {
     updateCollectionSettings();
