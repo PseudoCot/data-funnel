@@ -42,7 +42,7 @@
           </div>
 
           <p class="planning__operating-text paragraph-reset">До следующего сбора: <span
-              id="until-next-collection-text">00:31:57</span>
+              id="until-next-collection-text">00:00:00</span>
           </p>
 
           <button class="planning__plan-btn btn btn-reset" id="concudt-collection-btn">Провести внеплановый
@@ -186,9 +186,15 @@
           <button class="settings__btn btn btn-reset" id="select-raw-data-dir-btn">Выбрать папку</button>
         </div>
 
-        <div class="settings__setting-wrapper">
+        <div class="settings__setting-wrapper wrapper-underline">
           <label class="settings__setting-label label" for="logging-checkbox">Включить логирование</label>
           <input class="settings__checkbox checkbox" type="checkbox" name="logging-checkbox" id="logging-checkbox">
+        </div>
+
+        <div class="settings__setting-wrapper">
+          <p class="settings__setting-text text paragraph-reset">Если сломалась программа, то попробуйте сбросить
+            настройки и перезапустить её</p>
+          <button class="settings__btn btn-hollow btn-reset" id="reset-settings-btn">Сбросить настройки</button>
         </div>
       </article>
     </main>

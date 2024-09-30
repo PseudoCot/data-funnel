@@ -1,4 +1,6 @@
+import { MessageBoxOptions } from "electron";
 import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by-event-creator";
+import { setPlanningInitialValues } from "./planning";
 
 const dataFetchingUrlInput = document.getElementById('data-fetching-url-input') as HTMLInputElement;
 const dataSheetPathText = document.getElementById('data-sheet-path');
@@ -14,6 +16,8 @@ const rawDataDirPathText = document.getElementById('raw-data-dir-path');
 const rawDataDirSelectBtn = document.getElementById('select-raw-data-dir-btn') as HTMLButtonElement;
 
 const loggingCheckbox = document.getElementById('logging-checkbox') as HTMLInputElement;
+
+const resetSettingsBtn = document.getElementById('reset-settings-btn') as HTMLButtonElement;
 
 
 export function setSettingsInitialValues() {
@@ -41,6 +45,8 @@ export function setSettingsHandlers() {
   rawDataDirSelectBtn.onclick = handleRowDataDirSelectBtnClick;
 
   loggingCheckbox.onchange = updateSettingByEventCreator('logging.enabled', true);
+
+  resetSettingsBtn.onclick = handleResetSettingsBtnClick;
 }
 
 export function clearSettingsHandlers() {
@@ -83,4 +89,23 @@ async function handleRowDataDirSelectBtnClick() {
     rawDataDirPathText.innerText = dirPath;
     await window.settingsAPI.set('rawData.dirPath', dirPath)
   }
+}
+
+async function handleResetSettingsBtnClick() {
+  const options: MessageBoxOptions = {
+    message: 'Вы уверенны, что хотите сбросить настройки?',
+    type: 'question',
+    buttons: ['Да', 'Нет'],
+    defaultId: 1,
+    title: 'Сброс настроек',
+    cancelId: 1,
+  };
+
+  const clickedBtn = await window.dialogAPI.showMessageBoxSync(options)
+  if (clickedBtn === 0) {
+    await window.settingsAPI.reset();
+    setPlanningInitialValues();
+    setSettingsInitialValues();
+  }
+
 }

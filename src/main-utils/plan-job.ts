@@ -14,8 +14,6 @@ export function planJob(tzOffset: number, time: string, days: DaysCheck,
     .filter(([, value]) => value)
     .map(([day]) => daysToNumbers[day]);
 
-  console.log(minutes, hours, daysNumbers.join(','));
-
   return job = new CronJob(
     `${minutes} ${hours} * * ${daysNumbers.join(',')}`,
     onTick,

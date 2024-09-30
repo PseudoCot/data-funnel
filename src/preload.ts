@@ -1,13 +1,15 @@
-import { contextBridge, ipcRenderer, OpenDialogOptions } from "electron";
+import { contextBridge, ipcRenderer, MessageBoxOptions, OpenDialogOptions } from "electron";
 
 contextBridge.exposeInMainWorld('dialogAPI', {
-  getFilePath: (options: OpenDialogOptions) => ipcRenderer.invoke('dialog:getFilePath', options)
+  getFilePath: (options: OpenDialogOptions) => ipcRenderer.invoke('dialog:getFilePath', options),
+  showMessageBox: (options: MessageBoxOptions) => ipcRenderer.invoke('dialog:showMessageBox', options),
+  showMessageBoxSync: (options: MessageBoxOptions) => ipcRenderer.invoke('dialog:showMessageBoxSync', options),
 });
 
 contextBridge.exposeInMainWorld('settingsAPI', {
   set: (key: string, value: string) => ipcRenderer.invoke('settings:set', key, value),
   get: (key: string) => ipcRenderer.invoke('settings:get', key),
-  setDefault: () => ipcRenderer.send('settings:setDefault'),
+  reset: () => ipcRenderer.invoke('settings:reset'),
 });
 
 contextBridge.exposeInMainWorld('collectionAPI', {

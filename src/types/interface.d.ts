@@ -3,11 +3,14 @@ import { SettingsValue } from "./types";
 
 export interface IDialogAPI {
   getFilePath: (key: OpenDialogOptions) => Promise<string | undefined>,
+  showMessageBox: (options: MessageBoxOptions) => Promise<number>,
+  showMessageBoxSync: (options: MessageBoxOptions) => Promise<number>,
 }
 
 export interface ISettingsAPI {
   set: (key: string, value: SettingsValue) => Promise<void>,
   get: (key: string) => Promise<SettingsValue>,
+  reset: () => Promise<void>,
 }
 
 export interface ICollectionAPI {

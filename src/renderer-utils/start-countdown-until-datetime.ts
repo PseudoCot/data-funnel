@@ -21,7 +21,8 @@ function updateCountdown(nextDate: DateTime, tzOffset: number) {
     return;
   }
 
-  untilNextCollectionText.innerText = `${diffTime.hours}:${diffTime.minutes}:${Number(diffTime.seconds)}`;
+  untilNextCollectionText.innerText =
+    `${diffTime.hours}:${diffTime.minutes}:${String(Math.floor(diffTime.seconds)).padStart(2, '0')}`;
 }
 
 export function stopCountdown() {

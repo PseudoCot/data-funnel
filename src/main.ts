@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import path from 'path';
 import settings from 'electron-settings';
 import Squirrel from "electron-squirrel-startup";
@@ -56,6 +56,12 @@ function setIpcHandlers() {
   ipcMain.handle('dialog:getFilePath', (_, options) => {
     return handleFileOpen(options);
   });
+  ipcMain.handle('dialog:showMessageBox', (_, options) => {
+    return dialog.showMessageBox(options);
+  });
+  ipcMain.handle('dialog:showMessageBoxSync', (_, options) => {
+    return dialog.showMessageBoxSync(options);
+  });
 
   ipcMain.handle('settings:set', (_, key, value) => {
     return settings.set(key, value);
@@ -63,8 +69,9 @@ function setIpcHandlers() {
   ipcMain.handle('settings:get', (_, key) => {
     return settings.get(key);
   });
-  ipcMain.on('settings:setDefault', () => {
+  ipcMain.handle('settings:reset', () => {
     setSettingsDefaultValues();
+    return;
   });
 }
 
@@ -107,7 +114,6 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 };
 
-// Menu.setApplicationMenu(null)
 
 app.on('ready', createWindow);
 

@@ -283,6 +283,12 @@ img {
   font-weight: 500;
 }
 
+.settings__setting-text {
+  margin: 0 8px 4px 0;
+  display: inline-block;
+  font-weight: 400;
+}
+
 .settings__input {
   width: 200px;
   font-size: 13px;
