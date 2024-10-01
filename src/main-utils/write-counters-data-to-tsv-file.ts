@@ -4,7 +4,7 @@ import { getTodayDateForFileName } from '../common/get-today-date-for-file-name'
 
 export async function writeCountersDataToTsvFile(tsvData: string[]) {
   const rawDataDirPath = settings.getSync('data.rawDataDirPath').toString();
-  const fileName = getTodayDateForFileName(rawDataDirPath);
+  const fileName = getTodayDateForFileName('tsv', rawDataDirPath);
   const fileWriter = new TSVFileWriter(fileName);
 
   await fileWriter.write(new Date().toLocaleString());

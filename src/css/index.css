@@ -46,6 +46,10 @@ img {
   user-select: none;
 }
 
+.btn-reset:disabled {
+  cursor: default;
+}
+
 .title-reset,
 .paragraph-reset {
   margin: 0;
@@ -161,21 +165,25 @@ img {
   cursor: pointer;
 }
 
+.checkbox:disabled {
+  cursor: default;
+}
+
 .btn {
   padding: 5px 12px;
   color: #fff;
-  background-color: var(--light-main-color);
+  background-color: #3198ff;
   border-radius: 10px;
 }
 
 .btn:hover {
-  background-color: #3198ff;
+  background-color: var(--light-main-color);
 }
 
 .btn-hollow {
   padding: 3px 8px;
   background-color: #fff;
-  border: 2px solid var(--light-main-color);
+  border: 2px solid #3198ff;
   border-radius: 10px;
 }
 
@@ -300,7 +308,9 @@ img {
   font-size: 13px;
 }
 
-#data-sheet-path,
+#template-sheet-path,
+#shared-sheet-path,
+#separated-sheets-dir-path,
 #raw-data-dir-path {
   margin: 0 0 5px 8px;
   display: inline-block;
@@ -308,10 +318,18 @@ img {
   font-weight: 400;
 }
 
-#data-sheet-select {
-  margin-left: 338px;
+#select-template-sheet-btn {
+  margin-left: 205px;
 }
 
-#raw-data-dir-select {
-  margin-left: 371px;
+#select-shared-sheet-btn {
+  margin-left: 185px;
+}
+
+#select-separated-sheets-dir-btn {
+  margin-left: 295px;
+}
+
+#select-raw-data-dir-btn {
+  margin-left: 279px;
 }

@@ -14,6 +14,7 @@ if (Squirrel) {
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
+let mainWindow: BrowserWindow;
 
 const SETTINGS_DEFAULTS = {
   initialized_0: true,
@@ -59,7 +60,7 @@ function setSettingsDefaultValues() {
 function createWindow() {
   setIpcHandlers();
 
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     minWidth: 800, width: 1000, maxWidth: 1200,
     minHeight: 400, height: 600, maxHeight: 800,
     center: true,
@@ -104,8 +105,7 @@ function setIpcHandlers() {
     return settings.get(key);
   });
   ipcMain.handle('settings:reset', () => {
-    setSettingsDefaultValues();
-    return;
+    return settings.set(SETTINGS_DEFAULTS);
   });
 }
 
@@ -122,7 +122,7 @@ function setLateIpcHandlers(mainWindow: BrowserWindow) {
 
     ipcMain.handle('collection:processHtml', (_, html) => {
       ipcMain.removeHandler('collection:processHtml');
-      return processCountersData(html, saveRawData);
+      return processCountersData(mainWindow, html, saveRawData);
     });
   });
 }

@@ -1,31 +1,30 @@
 import settings from 'electron-settings';
 import ExcelJS, { Worksheet } from 'exceljs';
+import path from 'path';
 import { CounterData } from "../types/types";
 import { getTodayDateForFileName } from '../common/get-today-date-for-file-name';
 import { DateTime } from 'luxon';
 import { compareObjectsByKeyCreator } from '../common/compare-objects-by-key-creator';
 import {
   COUNTERS_IN_TRANSF, TRANSF_DIFF, TRANSF_DATE_CELL_COL, TRANSF_DATE_CELL_ROW, COUNTER_START_ROW,
-  COUNTER_T_COL, COUNTER_I_START_COL, COUNTER_U_START_COL, MONTHS
+  COUNTER_T_COL, COUNTER_I_START_COL, COUNTER_U_START_COL, MONTHS,
 } from '../consts';
 
-
 export async function writeCountersDataToSeparatedSheet(data: CounterData[]) {
-  const templateFilePath = settings.getSync('data.templateSheetPath').toString();
-  const separatedSheetsDirPath = settings.getSync('data.separatedSheetsDirPath').toString();
-  const newSheetFilePath = getTodayDateForFileName(separatedSheetsDirPath);
+  // const templateFilePath = (await settings.get('data.templateSheetPath')).toString();
+  const separatedSheetsDirPath = (await settings.get('data.separatedSheetsDirPath')).toString();
+  const newSheetFilePath = getTodayDateForFileName('xlsx', separatedSheetsDirPath);
 
-  // await copyFile('source.txt', 'destination.txt', constants.COPYFILE_FICLONE); /// поменять мод?
+  // await copyFile('source.txt', 'destination.txt', constants.COPYFILE_FICLONE);
 
   const workbook = new ExcelJS.Workbook();
   workbook.calcProperties.fullCalcOnLoad = true;
-  await workbook.xlsx.readFile(templateFilePath);
+  await workbook.xlsx.readFile(path.resolve(__dirname, 'template.xlsx'));
   const worksheet = workbook.getWorksheet('Template');
 
   await writeCountersDataToTemplate(worksheet, data);
 
   await workbook.xlsx.writeFile(newSheetFilePath);
-  return;
 }
 
 async function writeCountersDataToTemplate(worksheet: Worksheet, data: CounterData[]) {
@@ -44,7 +43,7 @@ async function writeCountersDataToTemplate(worksheet: Worksheet, data: CounterDa
       transfStep = (transf - 1) * TRANSF_DIFF;
       worksheet.getCell(`${TRANSF_DATE_CELL_COL}${TRANSF_DATE_CELL_ROW + transfStep}`).value = date;
     }
-    inTransfDiff = (counterIndex % COUNTERS_IN_TRANSF) - 1;
+    inTransfDiff = (counterIndex - 1) % COUNTERS_IN_TRANSF;
 
     const counterRow = worksheet.getRow(COUNTER_START_ROW + transfStep + inTransfDiff);
     counterRow.getCell(COUNTER_T_COL).value = counter.t;
@@ -54,8 +53,6 @@ async function writeCountersDataToTemplate(worksheet: Worksheet, data: CounterDa
     counterRow.getCell(COUNTER_U_START_COL).value = counter.u1;
     counterRow.getCell(COUNTER_U_START_COL + 1).value = counter.u2;
     counterRow.getCell(COUNTER_U_START_COL + 2).value = counter.u3;
-
-    counterRow.getCell(COUNTER_U_START_COL + 9).value = counter.name; ////////////////
   }
 }
 

@@ -17,13 +17,13 @@ export type DaysCheck = {
 
 export type CounterData = {
   name: string,
-  u1: string,
-  u2: string,
-  u3: string,
-  i1: string,
-  i2: string,
-  i3: string,
-  t: string,
+  u1: number,
+  u2: number,
+  u3: number,
+  i1: number,
+  i2: number,
+  i3: number,
+  t: number,
 }
 
 export type ProgressType = 'none' | 'normal' | 'indeterminate' | 'error' | 'paused'

@@ -1,5 +1,5 @@
 import { Tab } from "../types/types";
-import { setPlanningHandlers, clearPlanningHandlers } from "./planning";
+import { setPlanningHandlers, clearPlanningHandlers, clearPlanningSettingsHandlers, setPlanningSettingsHandlers } from "./planning";
 import { clearSettingsHandlers, setSettingsHandlers } from "./settings";
 
 
@@ -20,6 +20,7 @@ export function selectTabContent(clickedTab: Tab) {
       processTabContent.className = 'process visually-hidden';
       settingsTabContent.className = 'settings visually-hidden';
       setPlanningHandlers();
+      setPlanningSettingsHandlers();
       clearSettingsHandlers();
       break;
     case 'process':
@@ -28,6 +29,7 @@ export function selectTabContent(clickedTab: Tab) {
       processTabContent.className = 'process';
       settingsTabContent.className = 'settings visually-hidden';
       clearPlanningHandlers();
+      clearPlanningSettingsHandlers();
       clearSettingsHandlers();
       break;
     case 'settings':
@@ -36,6 +38,7 @@ export function selectTabContent(clickedTab: Tab) {
       processTabContent.className = 'process visually-hidden';
       settingsTabContent.className = 'settings';
       clearPlanningHandlers();
+      clearPlanningSettingsHandlers();
       setSettingsHandlers();
       break;
   }

@@ -6,6 +6,7 @@ import { writeCountersDataToSeparatedSheet } from './write-counters-data-to-sepa
 import { notifyUserInTaskbar } from './notify-user-in-taskbar';
 import { BrowserWindow } from 'electron';
 import { showProgressInTaskbar } from './show-progress-in-taskbar';
+import { writeCountersDataToSharedSheet } from './write-counters-data-to-shared-sheet';
 
 export function processCountersData(win: BrowserWindow, html: string, saveRawData?: boolean) {
   showProgressInTaskbar(win, 0.2);
@@ -15,7 +16,7 @@ export function processCountersData(win: BrowserWindow, html: string, saveRawDat
     .then((data) => {
       showProgressInTaskbar(win, 0.4);
       if (settings.getSync('data.saveSharedSheet')) {
-        writeCountersDataToSeparatedSheet(data);
+        writeCountersDataToSharedSheet(data);
       }
       showProgressInTaskbar(win, 0.6);
       if (settings.getSync('data.saveSeparatedSheets')) {
@@ -24,18 +25,19 @@ export function processCountersData(win: BrowserWindow, html: string, saveRawDat
       return data;
     })
 
-    .then(async (data) => {
+    .then((data) => {
       showProgressInTaskbar(win, 0.8);
       if (saveRawData || !!settings.getSync('data.saveRawData')) {
-        const tsvData = await prepareCountersDataForTsvFile(data);
+        const tsvData = prepareCountersDataForTsvFile(data);
         showProgressInTaskbar(win, 0.9);
-        writeCountersDataToTsvFile(tsvData);
+        return writeCountersDataToTsvFile(tsvData);
       }
     })
 
     .then(() => {
       showProgressInTaskbar(win, 1);
       notifyUserInTaskbar(win);
+      setTimeout(() => showProgressInTaskbar(win, 0, 'none'), 5000);
     })
 
     .catch(() => {

@@ -1,4 +1,4 @@
-export function getTodayDateForFileName(dirPath?: string) {
+export function getTodayDateForFileName(fileExt: string, dirPath?: string) {
   const dateTime = new Date().toLocaleString();
-  return `${dirPath}${dirPath ? '/' : ''}${dateTime.replaceAll('/', '-').replaceAll(':', '-')}.tsv`;
+  return `${dirPath}${dirPath ? '\\' : ''}${dateTime.replaceAll('/', '-').replaceAll(':', '-')}.${fileExt}`;
 }

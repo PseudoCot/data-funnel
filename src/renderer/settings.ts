@@ -3,8 +3,8 @@ import { updateSettingByEventCreator } from "../renderer-utils/update-setting-by
 import { setPlanningInitialValues } from "./planning";
 
 const dataFetchingUrlInput = document.getElementById('data-fetching-url-input') as HTMLInputElement;
-const templateSheetPathEl = document.getElementById('template-sheet-path');
-const selectTemplateSheetBtn = document.getElementById('select-template-sheet-btn') as HTMLButtonElement;
+// const templateSheetPathEl = document.getElementById('template-sheet-path');
+// const selectTemplateSheetBtn = document.getElementById('select-template-sheet-btn') as HTMLButtonElement;
 
 const saveSharedDataCheckbox = document.getElementById('save-shared-data-checkbox') as HTMLInputElement;
 const sharedSheetPathEl = document.getElementById('shared-sheet-path');
@@ -31,7 +31,7 @@ const resetSettingsBtn = document.getElementById('reset-settings-btn') as HTMLBu
 export function setSettingsInitialValues() {
   window.settingsAPI.get('data.fetchingUrl').then((v) => (dataFetchingUrlInput.value = v.toString()));
 
-  window.settingsAPI.get('data.templateSheetPath').then((v) => (templateSheetPathEl.innerText = v?.toString() || 'Не выбрано'));
+  // window.settingsAPI.get('data.templateSheetPath').then((v) => (templateSheetPathEl.innerText = v?.toString() || 'Не выбрано'));
   window.settingsAPI.get('data.saveSharedSheet').then((v) => (saveSharedDataCheckbox.checked = !!v));
   window.settingsAPI.get('data.sharedSheetPath').then((v) => (sharedSheetPathEl.innerText = v?.toString() || 'Не выбрано'));
   window.settingsAPI.get('data.saveSeparatedSheets').then((v) => (saveSeparatedDataCheckbox.checked = !!v));
@@ -49,10 +49,10 @@ export function setSettingsInitialValues() {
 export function setSettingsHandlers() {
   dataFetchingUrlInput.onchange = updateSettingByEventCreator('data.fetchingUrl');
 
-  selectTemplateSheetBtn.onclick = handleSelectSheetBtnClickCreator(async (filePath) => {
-    templateSheetPathEl.innerText = filePath;
-    await window.settingsAPI.set('data.templateSheetPath', filePath)
-  });
+  // selectTemplateSheetBtn.onclick = handleSelectSheetBtnClickCreator(async (filePath) => {
+  //   templateSheetPathEl.innerText = filePath;
+  //   await window.settingsAPI.set('data.templateSheetPath', filePath)
+  // });
   saveSharedDataCheckbox.onchange = updateSettingByEventCreator('data.saveSharedSheet', true);
   selectSharedSheetBtn.onclick = handleSelectSheetBtnClickCreator(async (filePath) => {
     sharedSheetPathEl.innerText = filePath;
@@ -81,7 +81,7 @@ export function setSettingsHandlers() {
 export function clearSettingsHandlers() {
   dataFetchingUrlInput.onchange = undefined;
 
-  selectTemplateSheetBtn.onclick = undefined;
+  // selectTemplateSheetBtn.onclick = undefined;
   saveSharedDataCheckbox.onchange = undefined;
   selectSharedSheetBtn.onclick = undefined;
   saveSeparatedDataCheckbox.onchange = undefined;
@@ -125,11 +125,11 @@ function handleSelectDirBtnClickCreator(callback: (dirPath: string) => void) {
 
 async function handleResetSettingsBtnClick() {
   const options: MessageBoxOptions = {
+    title: 'Сброс настроек',
     message: 'Вы уверенны, что хотите сбросить настройки?',
     type: 'question',
     buttons: ['Да', 'Нет'],
     defaultId: 1,
-    title: 'Сброс настроек',
     cancelId: 1,
   };
 
