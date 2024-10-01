@@ -7,6 +7,7 @@ import { TIME_TO_COLLECT_DATA } from "../consts";
 
 let job: CronJob;
 let isCollectingData = false;
+let isChangingCollectionSettings = false;
 
 const collectionCheckbox = document.getElementById('enable-collection-checkbox') as HTMLInputElement;
 const concudtCollectionBtn = document.getElementById('concudt-collection-btn') as HTMLButtonElement;
@@ -59,6 +60,7 @@ export function setPlanningHandlers() {
     if (isCollectingData) return;
 
     isCollectingData = true;
+    concudtCollectionBtn.disabled = true;
     // const options: MessageBoxOptions = {
     //   message: 'Сохранить ли дополнительно данные со счётчиков в текстовый файл?',
     //   type: 'question',
@@ -69,11 +71,17 @@ export function setPlanningHandlers() {
     // };
     // const clickedBtn = await window.dialogAPI.showMessageBoxSync(options);
     window.collectionAPI.collectCountersData(false);
-    setTimeout(() => (isCollectingData = false), TIME_TO_COLLECT_DATA);
+    setTimeout(() => {
+      isCollectingData = false;
+      concudtCollectionBtn.disabled = false;
+    }, TIME_TO_COLLECT_DATA);
   };
+
   setPlanBtn.onclick = async () => {
     updateCollectionSettings();
     handleCollectionSettingsChange();
+    isChangingCollectionSettings = false;
+    cancelPlanBtn.disabled = true;
   };
   cancelPlanBtn.onclick = async () => {
     setPlanningInitialValues();
@@ -82,10 +90,40 @@ export function setPlanningHandlers() {
 
 export function clearPlanningHandlers() {
   collectionCheckbox.onchange = undefined;
-
   concudtCollectionBtn.onclick = undefined;
   setPlanBtn.onclick = undefined;
   cancelPlanBtn.onclick = undefined;
+}
+
+export function setPlanningSettingsHandlers() {
+  mondayCheckbox.onchange = handleCollectionSettingChange;
+  tuesdayCheckbox.onchange = handleCollectionSettingChange;
+  wensdayCheckbox.onchange = handleCollectionSettingChange;
+  thursdayCheckbox.onchange = handleCollectionSettingChange;
+  fridayCheckbox.onchange = handleCollectionSettingChange;
+  saturdayCheckbox.onchange = handleCollectionSettingChange;
+  sundayCheckbox.onchange = handleCollectionSettingChange;
+  tzSelect.onchange = handleCollectionSettingChange;
+  timeInput.onchange = handleCollectionSettingChange;
+}
+
+export function clearPlanningSettingsHandlers() {
+  mondayCheckbox.onchange = undefined;
+  tuesdayCheckbox.onchange = undefined;
+  wensdayCheckbox.onchange = undefined;
+  thursdayCheckbox.onchange = undefined;
+  fridayCheckbox.onchange = undefined;
+  saturdayCheckbox.onchange = undefined;
+  sundayCheckbox.onchange = undefined;
+  tzSelect.onchange = undefined;
+  timeInput.onchange = undefined;
+}
+
+function handleCollectionSettingChange() {
+  if (isChangingCollectionSettings) return
+
+  isChangingCollectionSettings = true;
+  cancelPlanBtn.disabled = false;
 }
 
 export async function updateCollectionSettings() {
