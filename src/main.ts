@@ -4,13 +4,19 @@ import settings from 'electron-settings';
 import Squirrel from "electron-squirrel-startup";
 import { handleFileOpen } from './renderer-utils/handle-file-open';
 import { processCountersData } from './main-utils/process-counters-data';
+import { checkSettingsMeetRequirements } from './main-utils/check-settings-meet-requirements';
+
+
+if (Squirrel) {
+  app.quit();
+}
 
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
 const SETTINGS_DEFAULTS = {
-  initialized: true,
+  initialized_0: true,
   collection: {
     enabled: false,
     days: { mo: true, tu: true, we: true, th: true, fr: true, sa: false, su: false },
@@ -38,57 +44,19 @@ const SETTINGS_DEFAULTS = {
   },
 };
 
-if (Squirrel) {
-  app.quit();
-}
-
 
 setSettingsDefaultValues();
 
 
 function setSettingsDefaultValues() {
-  const initialized = settings.getSync('initialized');
+  const initialized = settings.getSync('initialized_0');
 
   if (!initialized) {
     settings.setSync(SETTINGS_DEFAULTS);
   }
 }
 
-function setIpcHandlers() {
-  ipcMain.handle('dialog:getFilePath', (_, options) => {
-    return handleFileOpen(options);
-  });
-  ipcMain.handle('dialog:showMessageBox', (_, options) => {
-    return dialog.showMessageBox(options);
-  });
-  ipcMain.handle('dialog:showMessageBoxSync', (_, options) => {
-    return dialog.showMessageBoxSync(options);
-  });
-
-  ipcMain.handle('settings:set', (_, key, value) => {
-    return settings.set(key, value);
-  });
-  ipcMain.handle('settings:get', (_, key) => {
-    return settings.get(key);
-  });
-  ipcMain.handle('settings:reset', () => {
-    setSettingsDefaultValues();
-    return;
-  });
-}
-
-function setLateIpcHandlers(mainWindow: BrowserWindow) {
-  ipcMain.on('collection:collect', (_, saveRawData) => {
-    const url = settings.getSync('data.fetchingUrl').toString();
-    mainWindow.webContents.send('collection:fetchHtml', url);
-    ipcMain.handle('collection:processHtml', (_, html) => {
-      ipcMain.removeHandler('collection:processHtml');
-      return processCountersData(html, saveRawData);
-    });
-  });
-}
-
-const createWindow = () => {
+function createWindow() {
   setIpcHandlers();
 
   const mainWindow = new BrowserWindow({
@@ -116,7 +84,48 @@ const createWindow = () => {
   }
 
   mainWindow.webContents.openDevTools();
-};
+}
+
+function setIpcHandlers() {
+  ipcMain.handle('dialog:getFilePath', (_, options) => {
+    return handleFileOpen(options);
+  });
+  ipcMain.handle('dialog:showMessageBox', (_, options) => {
+    return dialog.showMessageBox(options);
+  });
+  ipcMain.handle('dialog:showMessageBoxSync', (_, options) => {
+    return dialog.showMessageBoxSync(options);
+  });
+
+  ipcMain.handle('settings:set', (_, key, value) => {
+    return settings.set(key, value);
+  });
+  ipcMain.handle('settings:get', (_, key) => {
+    return settings.get(key);
+  });
+  ipcMain.handle('settings:reset', () => {
+    setSettingsDefaultValues();
+    return;
+  });
+}
+
+function setLateIpcHandlers(mainWindow: BrowserWindow) {
+  ipcMain.on('collection:collect', async (_, saveRawData) => {
+    const failureCheckMessage = await checkSettingsMeetRequirements();
+    if (failureCheckMessage) {
+      dialog.showMessageBox(failureCheckMessage);
+      return;
+    }
+
+    const url = (await settings.get('data.fetchingUrl')).toString();
+    mainWindow.webContents.send('collection:fetchHtml', url);
+
+    ipcMain.handle('collection:processHtml', (_, html) => {
+      ipcMain.removeHandler('collection:processHtml');
+      return processCountersData(html, saveRawData);
+    });
+  });
+}
 
 
 app.on('ready', createWindow);
