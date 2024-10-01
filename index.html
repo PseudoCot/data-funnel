@@ -12,19 +12,34 @@
 
 <body>
   <div class="container">
-    <aside class="tabs">
-      <button class="tabs__btn btn-reset" id="tab-planning-btn">
-        <img class="tabs__btn-img" src="assets/planning.png" alt="">
-        <span class="tabs__btn-text">Планирование</span>
-      </button>
-      <button class="tabs__btn btn-reset" id="tab-process-btn">
-        <img class="tabs__btn-img" src="assets/process.png" alt="">
-        <span class="tabs__btn-text">Процесс сбора</span>
-      </button>
-      <button class="tabs__btn btn-reset" id="tab-settings-btn">
-        <img class="tabs__btn-img" src="assets/settings.png" alt="">
-        <span class="tabs__btn-text">Настройки</span>
-      </button>
+    <aside class="sidebar">
+      <nav class="tabs">
+        <button class="tabs__btn btn-reset" id="tab-planning-btn">
+          <img class="tabs__btn-img" src="assets/planning.png" alt="">
+          <span class="tabs__btn-text">Планирование</span>
+        </button>
+        <button class="tabs__btn btn-reset" id="tab-process-btn">
+          <img class="tabs__btn-img" src="assets/process.png" alt="">
+          <span class="tabs__btn-text">Процесс сбора</span>
+        </button>
+        <button class="tabs__btn btn-reset" id="tab-settings-btn">
+          <img class="tabs__btn-img" src="assets/settings.png" alt="">
+          <span class="tabs__btn-text">Настройки</span>
+        </button>
+      </nav>
+      <div class="process-info visually-hidden" id="process-info">
+        <span class="process-info__state" id="process-info-state">⏳ Идёт сбор ⏳</span>
+        <span class="process-info__result-date" id="process-info-result-date">10.09.2024</span>
+        <span class="process-info__file-results-title" id="process-info-file-results-title">Готовые файлы:</span>
+        <div class="process-info__file-results" id="process-info-file-results">
+          <button class="process-info__file-result btn-hollow btn-reset visually-hidden"
+            id="open-shared-sheet-btn"></button>
+          <button class="process-info__file-result btn-hollow btn-reset visually-hidden"
+            id="open-separated-sheet-btn"></button>
+          <button class="process-info__file-result btn-hollow btn-reset visually-hidden"
+            id="open-tsv-file-btn"></button>
+        </div>
+      </div>
     </aside>
 
     <main class="content">
@@ -128,6 +143,17 @@
           <img class="process__head-img head-img" src="assets/process.png" alt="">
           <h1 class="process__head-title head-title title-reset">Процесс сбора данных со счётчиков</h1>
         </div>
+
+        <!-- <p class="process__result">Сбора данных не происходило</p>
+        <p class="process__result">Идёт сбор данных</p>
+
+        <div class="process__result">
+          Сбор данных завершился <span class="process__result-type" id="process-result-type"></span>
+        </div>
+
+        <div class="process__results">
+
+        </div> -->
 
         <div class="process__webview-container" id="webview-container"></div>
       </article>

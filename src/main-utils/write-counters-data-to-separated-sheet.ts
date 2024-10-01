@@ -25,6 +25,8 @@ export async function writeCountersDataToSeparatedSheet(data: CounterData[]) {
   await writeCountersDataToTemplate(worksheet, data);
 
   await workbook.xlsx.writeFile(newSheetFilePath);
+
+  return newSheetFilePath;
 }
 
 async function writeCountersDataToTemplate(worksheet: Worksheet, data: CounterData[]) {

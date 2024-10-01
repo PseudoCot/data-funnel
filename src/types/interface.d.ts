@@ -5,6 +5,7 @@ export interface IDialogAPI {
   getFilePath: (key: OpenDialogOptions) => Promise<string | undefined>,
   showMessageBox: (options: MessageBoxOptions) => Promise<number>,
   showMessageBoxSync: (options: MessageBoxOptions) => Promise<number>,
+  openFile: (filePath: string) => void,
 }
 
 export interface ISettingsAPI {
@@ -17,7 +18,7 @@ export interface ICollectionAPI {
   // error string, or else ''
   collectCountersData: (saveRawData?: boolean) => Promise<string>,
   onFetchHtml: (callback: (value) => void) => void,
-  processHtml: (html: string) => void,
+  processHtml: (html: string) => Promise<string[]>,
 }
 
 declare global {

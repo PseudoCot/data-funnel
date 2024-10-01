@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld('dialogAPI', {
   getFilePath: (options: OpenDialogOptions) => ipcRenderer.invoke('dialog:getFilePath', options),
   showMessageBox: (options: MessageBoxOptions) => ipcRenderer.invoke('dialog:showMessageBox', options),
   showMessageBoxSync: (options: MessageBoxOptions) => ipcRenderer.invoke('dialog:showMessageBoxSync', options),
+  openFile: (filePath: string) => ipcRenderer.send('dialog:openFile', filePath),
 });
 
 contextBridge.exposeInMainWorld('settingsAPI', {

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import path from 'path';
 import settings from 'electron-settings';
 import Squirrel from "electron-squirrel-startup";
@@ -97,6 +97,9 @@ function setIpcHandlers() {
   ipcMain.handle('dialog:showMessageBoxSync', (_, options) => {
     return dialog.showMessageBoxSync(options);
   });
+  ipcMain.on('dialog:openFile', (_, filePath) => {
+    shell.openPath(filePath);
+  });
 
   ipcMain.handle('settings:set', (_, key, value) => {
     return settings.set(key, value);
@@ -121,7 +124,6 @@ function setLateIpcHandlers(mainWindow: BrowserWindow) {
     mainWindow.webContents.send('collection:fetchHtml', url);
 
     ipcMain.handle('collection:processHtml', (_, html) => {
-      ipcMain.removeHandler('collection:processHtml');
       return processCountersData(mainWindow, html, saveRawData);
     });
   });

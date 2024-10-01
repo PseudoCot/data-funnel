@@ -22,8 +22,7 @@ function updateCountdown(nextDate: DateTime, tzOffset: number) {
     return;
   }
 
-  untilNextCollectionText.innerText =
-    `${diffTime.hours}:${diffTime.minutes}:${String(Math.floor(diffTime.seconds)).padStart(2, '0')}`;
+  untilNextCollectionText.innerText = `${String(diffTime.hours).padStart(2, '0')}:${String(diffTime.minutes).padStart(2, '0')}:${String(Math.floor(diffTime.seconds)).padStart(2, '0')}`;
 }
 
 export function stopCountdown() {

@@ -8,39 +8,45 @@ import { BrowserWindow } from 'electron';
 import { showProgressInTaskbar } from './show-progress-in-taskbar';
 import { writeCountersDataToSharedSheet } from './write-counters-data-to-shared-sheet';
 
-export function processCountersData(win: BrowserWindow, html: string, saveRawData?: boolean) {
+export async function processCountersData(win: BrowserWindow, html: string, saveRawData?: boolean) {
+  const newFilePaths: string[] = [];
   showProgressInTaskbar(win, 0.2);
 
-  return getCountersDataFromHtml(html)
+  await getCountersDataFromHtml(html)
 
-    .then((data) => {
+    .then(async (data) => {
       showProgressInTaskbar(win, 0.4);
       if (settings.getSync('data.saveSharedSheet')) {
-        writeCountersDataToSharedSheet(data);
+        const filePath = await writeCountersDataToSharedSheet(data)
+        newFilePaths.push(filePath);
       }
       showProgressInTaskbar(win, 0.6);
       if (settings.getSync('data.saveSeparatedSheets')) {
-        writeCountersDataToSeparatedSheet(data);
+        const filePath = await writeCountersDataToSeparatedSheet(data)
+        newFilePaths.push(filePath);
       }
       return data;
     })
 
-    .then((data) => {
+    .then(async (data) => {
       showProgressInTaskbar(win, 0.8);
-      if (saveRawData || !!settings.getSync('data.saveRawData')) {
+      if (saveRawData || !!(await settings.get('data.saveRawData'))) {
         const tsvData = prepareCountersDataForTsvFile(data);
         showProgressInTaskbar(win, 0.9);
-        return writeCountersDataToTsvFile(tsvData);
+        const filePath = await writeCountersDataToTsvFile(tsvData)
+        newFilePaths.push(filePath);
       }
     })
 
     .then(() => {
       showProgressInTaskbar(win, 1);
       notifyUserInTaskbar(win);
-      setTimeout(() => showProgressInTaskbar(win, 0, 'none'), 5000);
+      setTimeout(() => showProgressInTaskbar(win, 0, 'none'), 3000);
     })
 
     .catch(() => {
-      showProgressInTaskbar(win, 1, 'error')
+      showProgressInTaskbar(win, 0, 'error')
     });
+
+  return newFilePaths;
 }

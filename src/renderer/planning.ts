@@ -56,26 +56,7 @@ export function setPlanningHandlers() {
     }
   };
 
-  concudtCollectionBtn.onclick = async () => {
-    if (isCollectingData) return;
-
-    isCollectingData = true;
-    concudtCollectionBtn.disabled = true;
-    // const options: MessageBoxOptions = {
-    //   message: 'Сохранить ли дополнительно данные со счётчиков в текстовый файл?',
-    //   type: 'question',
-    //   buttons: ['Да', 'Нет', 'Отмена'],
-    //   defaultId: 2,
-    //   title: 'Внепланновый сбор данных',
-    //   cancelId: 2,
-    // };
-    // const clickedBtn = await window.dialogAPI.showMessageBoxSync(options);
-    window.collectionAPI.collectCountersData(false);
-    setTimeout(() => {
-      isCollectingData = false;
-      concudtCollectionBtn.disabled = false;
-    }, TIME_TO_COLLECT_DATA);
-  };
+  concudtCollectionBtn.onclick = handleConductCollectionBtnClick;
 
   setPlanBtn.onclick = async () => {
     updateCollectionSettings();
@@ -169,7 +150,7 @@ async function handleJobPlanning(settingsChanged = false) {
 }
 
 function handleJobActivating() {
-  window.collectionAPI.collectCountersData();
+  handleConductCollectionBtnClick();
   startCountdownUntilDatetime(job.nextDate());
 }
 
@@ -177,4 +158,17 @@ function handleJobForgetting() {
   forgetJob();
   job = undefined;
   stopCountdown();
+}
+
+function handleConductCollectionBtnClick() {
+  if (isCollectingData) return;
+
+  isCollectingData = true;
+  concudtCollectionBtn.disabled = true;
+
+  window.collectionAPI.collectCountersData(false);
+  setTimeout(() => {
+    isCollectingData = false;
+    concudtCollectionBtn.disabled = false;
+  }, TIME_TO_COLLECT_DATA);
 }

@@ -25,7 +25,7 @@ function createCounterDataFromRow($: cheerio.CheerioAPI, cells: cheerio.Cheerio)
   const nameStartIndex = $(cells[1]).text().indexOf('Ш');
   const t = ((+$(cells[8]).text()) + (+$(cells[9]).text()) + (+$(cells[10]).text()) + (+$(cells[11]).text())) / 120;
   return {
-    name: $(cells[1]).text().substring(nameStartIndex),
+    name: $(cells[1]).text().substring(nameStartIndex).trim(),
     t: +t.toFixed(2),
     i1: +$(cells[5]).text(),
     i2: +$(cells[6]).text(),
@@ -35,5 +35,3 @@ function createCounterDataFromRow($: cheerio.CheerioAPI, cells: cheerio.Cheerio)
     u3: +$(cells[4]).text(),
   };
 }
-
-const changeDelimiterToComma = (value: string | number) => value.toString().replace('.', ',');

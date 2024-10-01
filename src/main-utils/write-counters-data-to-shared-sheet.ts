@@ -14,5 +14,6 @@ export async function writeCountersDataToSharedSheet(data: CounterData[]) {
   await workbook.xlsx.readFile(sharedSheetFilePath);
 
   await workbook.xlsx.writeFile(sharedSheetFilePath);
-  return;
+
+  return sharedSheetFilePath;
 }
