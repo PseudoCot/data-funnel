@@ -23,7 +23,7 @@ export type CounterData = {
   i1: string,
   i2: string,
   i3: string,
-  t: number,
+  t: string,
 }
 
 export type ProgressType = 'none' | 'normal' | 'indeterminate' | 'error' | 'paused'

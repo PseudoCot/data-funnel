@@ -7,6 +7,7 @@ const untilNextCollectionText = document.getElementById('until-next-collection-t
 export async function startCountdownUntilDatetime(nextDate: DateTime) {
   stopCountdown();
   const tzOffset = +(await window.settingsAPI.get('collection.tzOffset'));
+
   updateCountdown(nextDate, tzOffset);
   timeInterval = setInterval(() => updateCountdown(nextDate, tzOffset), 1000);
 }
