@@ -20,6 +20,7 @@ export async function writeCountersDataToSeparatedSheet(data: CounterData[]) {
   const workbook = new ExcelJS.Workbook();
   workbook.calcProperties.fullCalcOnLoad = true;
   await workbook.xlsx.readFile(path.resolve(__dirname, 'template.xlsx'));
+  // await workbook.xlsx.readFile(templateFilePath);
   const worksheet = workbook.getWorksheet('Template');
 
   await writeCountersDataToTemplate(worksheet, data);
@@ -55,6 +56,8 @@ async function writeCountersDataToTemplate(worksheet: Worksheet, data: CounterDa
     counterRow.getCell(COUNTER_U_START_COL).value = counter.u1;
     counterRow.getCell(COUNTER_U_START_COL + 1).value = counter.u2;
     counterRow.getCell(COUNTER_U_START_COL + 2).value = counter.u3;
+
+    counterRow.getCell(COUNTER_U_START_COL + 9).value = counter.name; ///////// debug
   }
 }
 

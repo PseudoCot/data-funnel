@@ -22,6 +22,8 @@ selectTabContent('planning');
 setTabBtnsHandlers();
 
 
+window.collectionAPI.onConsoleLog((message) => console.log(message));
+
 window.collectionAPI.onFetchHtml(async (url) => {
   processInfoEl.classList.remove('visually-hidden');
   processInfoState.innerText = '⏳ Идёт сбор ⏳';
@@ -39,7 +41,7 @@ window.collectionAPI.onFetchHtml(async (url) => {
     window.collectionAPI.processHtml(html)
       .then((newFilePaths) => {
         if (newFilePaths.length < 1) return;
-        processInfoState.innerText = 'Cбор завершён';
+        processInfoState.innerText = 'Cбор завершён!';
         processInfoFileResultsTitle.classList.remove('visually-hidden');
         processInfoFileResults.classList.remove('visually-hidden');
         newFilePaths.forEach((filePath) => {

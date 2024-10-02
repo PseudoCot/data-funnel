@@ -13,6 +13,7 @@ export async function getCountersDataFromHtml(html: string) {
     if ($(row).hasClass('table_th')) continue;
 
     const cells = $(row).find('td');
+    if (cells.length < 12 || !$(cells[2]).text().trim()) continue;
     const counterData = createCounterDataFromRow($, cells);
     result.push(counterData);
   }

@@ -84,7 +84,7 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 }
 
 function setIpcHandlers() {
@@ -113,7 +113,7 @@ function setIpcHandlers() {
 }
 
 function setLateIpcHandlers(mainWindow: BrowserWindow) {
-  ipcMain.on('collection:collect', async (_, saveRawData) => {
+  ipcMain.on('collection:collect', async () => {
     const failureCheckMessage = await checkSettingsMeetRequirements();
     if (failureCheckMessage) {
       dialog.showMessageBox(failureCheckMessage);
@@ -124,7 +124,7 @@ function setLateIpcHandlers(mainWindow: BrowserWindow) {
     mainWindow.webContents.send('collection:fetchHtml', url);
 
     ipcMain.handle('collection:processHtml', (_, html) => {
-      return processCountersData(mainWindow, html, saveRawData);
+      return processCountersData(mainWindow, html);
     });
   });
 }
